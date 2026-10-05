@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Portfolio</title>
+  <!-- Roger Guixeras' portfolio: a walkable 3D museum. https://www.guixeras.com -->
+  <meta name="description" content="A walkable 3D museum of videogame projects.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Sans:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+<body>
+  <canvas id="scene" tabindex="-1"></canvas>
+  <div id="vignette"></div>
+
+  <!-- HUD -->
+  <div id="hud" hidden>
+    <div class="hud-room">
+      <span id="hud-room-no"></span>
+      <span id="hud-room-title"></span>
+    </div>
+    <canvas id="minimap" aria-hidden="true"></canvas>
+    <div class="hud-keys desktop-only">
+      <span><kbd>WASD</kbd><span data-i18n="hud.walk">Walk</span></span>
+      <span><kbd>E</kbd><span data-i18n="hud.inspect">Inspect</span></span>
+      <span><kbd>T</kbd><span data-i18n="hud.tour">Tour</span></span>
+      <span><kbd>M</kbd><span data-i18n="hud.catalogue">Catalogue</span></span>
+    </div>
+    <button id="menu-btn" class="touch-only" data-i18n="hud.catalogue">Catalogue</button>
+    <div id="crosshair"></div>
+    <div id="prompt" hidden></div>
+    <div id="resume-hint" hidden data-i18n="hud.resume">Click to resume</div>
+    <div id="joystick" class="touch-only"><div class="knob"></div></div>
+
+    <!-- Tour captions -->
+    <div id="tour" hidden>
+      <div class="tour-progress"><span id="tour-bar"></span></div>
+      <div class="tour-main">
+        <div class="tour-text" aria-live="polite">
+          <p class="eyebrow"><span id="tour-eyebrow"></span><span id="tour-count" class="tour-count"></span></p>
+          <h3 id="tour-title"></h3>
+          <p id="tour-line"></p>
+        </div>
+        <div class="tour-actions">
+          <button id="tour-prev" class="btn btn--small" data-i18n-label="tour.prevAria" data-i18n="tour.back" aria-label="Previous stop">‹ Back</button>
+          <button id="tour-pause" class="btn btn--small">Pause</button>
+          <button id="tour-next" class="btn btn--small" data-i18n="tour.next">Next ›</button>
+          <button id="tour-room" class="btn btn--small" data-i18n="tour.nextHall">Next hall ››</button>
+          <button id="tour-more" class="btn btn--small btn--accent" data-i18n="tour.more">Read more</button>
+          <button id="tour-stop" class="btn btn--small btn--ghost" data-i18n="tour.stop">Stop &amp; explore</button>
+        </div>
+      </div>
+      <p class="tour-keys desktop-only" data-i18n-html="tour.keys"><kbd>←</kbd><kbd>→</kbd> skip &nbsp;·&nbsp; <kbd>Space</kbd> pause &nbsp;·&nbsp; <kbd>E</kbd> read more &nbsp;·&nbsp; <kbd>Esc</kbd> take over</p>
+    </div>
+  </div>
+
+  <!-- Intro -->
+  <section id="intro" class="screen screen--intro">
+    <div class="intro-card">
+      <div class="lang-switch lang-switch--intro" role="group" aria-label="Language"></div>
+      <p class="eyebrow" id="intro-eyebrow"></p>
+      <h1 id="intro-name"></h1>
+      <p class="intro-role" id="intro-role"></p>
+      <div class="intro-actions">
+        <button id="enter-btn" class="btn btn--primary" disabled>Hanging the paintings…</button>
+        <button id="intro-tour-btn" class="btn" disabled data-i18n="intro.tour">Take the guided tour</button>
+        <button id="intro-cat-btn" class="btn btn--ghost" data-i18n="intro.catalogue">Browse the catalogue</button>
+      </div>
+      <p class="intro-hint" data-i18n="intro.hint">New to 3D? The guided tour walks you through every hall, with no controls to learn.</p>
+      <p id="intro-error" class="intro-error" hidden></p>
+      <dl class="keys desktop-only">
+        <div><dt><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd></dt><dd data-i18n-html="intro.walk">Walk · hold <kbd>Shift</kbd> to run</dd></div>
+        <div><dt data-i18n="intro.mouse">Mouse</dt><dd data-i18n="intro.look">Look around</dd></div>
+        <div><dt data-i18n-html="intro.eclick"><kbd>E</kbd> or click</dt><dd data-i18n="intro.inspect">Inspect a work</dd></div>
+        <div><dt><kbd>T</kbd></dt><dd data-i18n="intro.tourKey">Guided tour</dd></div>
+        <div><dt><kbd>Esc</kbd> / <kbd>M</kbd></dt><dd data-i18n="intro.catKey">Catalogue · Esc also closes what is open</dd></div>
+        <div><dt><kbd>N</kbd></dt><dd data-i18n="intro.sound">Sound on / off</dd></div>
+      </dl>
+      <dl class="keys touch-only">
+        <div><dt data-i18n="intro.thumb">Left thumb</dt><dd data-i18n="intro.walkT">Walk</dd></div>
+        <div><dt data-i18n="intro.drag">Drag</dt><dd data-i18n="intro.look">Look around</dd></div>
+        <div><dt data-i18n="intro.tap">Tap a work</dt><dd data-i18n="intro.inspectT">Inspect it</dd></div>
+        <div><dt data-i18n="intro.cat">Catalogue</dt><dd data-i18n="intro.catT">Every room &amp; the guided tour</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- Catalogue (also the pause menu) -->
+  <section id="catalogue" class="screen screen--catalogue" hidden data-i18n-label="cat.title" aria-label="Catalogue">
+    <div class="panel panel--catalogue">
+      <header class="panel-head">
+        <div class="panel-title">
+          <p class="eyebrow" data-i18n="permanent">Permanent Collection</p>
+          <h2 data-i18n="cat.title">Catalogue</h2>
+          <p class="panel-lead" data-i18n="cat.lead">Every hall and every piece. Pick one to read about it, or choose a hall to walk straight there.</p>
+        </div>
+        <button id="catalogue-close" class="close" data-i18n-label="cat.close" aria-label="Close">×</button>
+      </header>
+      <!-- Toolbar -->
+      <div class="panel-toolbar">
+        <div class="toolbar-group">
+          <button id="resume-btn" class="btn btn--small btn--primary" data-i18n="cat.back">Back to the museum</button>
+          <button id="cat-tour-btn" class="btn btn--small btn--ghost" data-i18n="cat.tour">Guided tour</button>
+        </div>
+        <div class="toolbar-group toolbar-group--end">
+          <div class="sound-group">
+            <button id="cat-sound-btn" class="btn btn--small btn--ghost">Sound on</button>
+            <label class="volume" for="cat-volume">
+              <span data-i18n="cat.volume">Volume</span>
+              <input id="cat-volume" type="range" min="0" max="100" step="1" value="70">
+              <output id="cat-volume-value" for="cat-volume">70%</output>
+            </label>
+          </div>
+          <div class="lang-switch" role="group" data-i18n-label="cat.language" aria-label="Language"></div>
+        </div>
+      </div>
+      <div id="catalogue-list"></div>
+      <footer class="panel-foot">
+        <p id="cat-credit" hidden></p>
+        <p class="desktop-only" data-i18n-html="cat.foot"><kbd>Esc</kbd> or a click outside closes the catalogue</p>
+      </footer>
+    </div>
+  </section>
+
+  <!-- Detail view -->
+  <section id="inspect" class="screen" hidden>
+    <article id="inspect-panel" class="panel panel--inspect">
+      <button id="inspect-close" class="close" data-i18n-label="cat.close" aria-label="Close">×</button>
+      <div id="inspect-stage">
+        <figure id="inspect-media"></figure>
+        <div id="inspect-thumbs"></div>
+      </div>
+      <div id="inspect-body"></div>
+    </article>
+  </section>
+
+  <div id="fade"></div>
+
+  <noscript><p class="noscript">This portfolio is a 3D museum and needs JavaScript and WebGL.<br>Aquest portafolis és un museu en 3D i necessita JavaScript i WebGL.<br>Este portafolio es un museo en 3D y necesita JavaScript y WebGL.</p></noscript>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+# Raw project material (coursework PDFs, site exports). Leading slash so it doesn't match assets/projects/
+/Projects/
+
+# Local notes and test server
+README.md
+serve.mjs
+package.json
+
+node_modules/
+.claude/
+Thumbs.db
+desktop.ini
+.DS_Store
