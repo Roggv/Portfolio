@@ -280,8 +280,6 @@ onLanguage(() => {
   ui.buildCatalogue(museum, catalogueHandlers);
   if (state === 'touring') ui.showTour(tour.stop, tour.index, tour.stops.length);
 });
-ui.setMusic(soundtrack.tracks);
-soundtrack.onTrack = ui.setNowPlaying;
 const showSound = () => {
   ui.setSound(mixer.on);
   ui.setVolume(mixer.volume);

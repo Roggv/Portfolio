@@ -49,16 +49,10 @@ export const profile = {
 };
 
 // Background music: files go in assets/audio/music/. One track loops, several play in turn.
-// The credit shows at the bottom of the catalogue. `url` is optional.
 export const music = {
   tracks: [
-    {
-      src: 'assets/audio/music/background-music.mp3',
-      title: 'Raining - Ambient Calm Piano Music (loop)',
-      artist: 'HarumachiMusic',
-      license: 'Pixabay Content License',
-      url: 'https://pixabay.com/music/solo-piano-raining-ambient-calm-piano-music-loop-111521/',
-    },
+    // "Raining - Ambient Calm Piano Music (loop)" by HarumachiMusic, Pixabay Content License (no credit needed)
+    { src: 'assets/audio/music/background-music.mp3' },
   ],
   level: 0.08, // share of the volume slider, 0 to 1
 };

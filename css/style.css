@@ -440,12 +440,8 @@ kbd {
 
 .panel-foot { flex: none; padding: 10px 32px; border-top: 1px solid var(--rule); font-size: 12px; color: var(--muted); text-align: center; }
 .panel-foot p { margin: 0; }
-.panel-foot p + p { margin-top: 4px; }
 .panel-foot kbd { margin-right: 4px; }
-.panel-foot a { color: inherit; text-underline-offset: 2px; }
-.credit-note { margin-right: 4px; opacity: 0; }
-.credit.playing .credit-note { opacity: 1; color: var(--accent); }
-.is-touch .panel-foot:has(#cat-credit[hidden]) { display: none; }
+.is-touch .panel-foot { display: none; }
 
 /* language switch: English · Català · Español */
 .lang-switch { display: inline-flex; border: 1px solid var(--rule); border-radius: 999px; background: var(--paper); overflow: hidden; }
@@ -583,7 +579,7 @@ kbd {
 #inspect-stage { display: flex; flex-direction: column; min-width: 0; min-height: 0; background: #161412; }
 #inspect-media { position: relative; flex: 1 1 auto; min-height: 0; margin: 0; display: grid; place-items: center; }
 #inspect-media img,
-#inspect-media video { width: 100%; height: 100%; object-fit: contain; background: #161412; }
+#inspect-media video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; background: #161412; }
 #inspect-media iframe { width: 100%; aspect-ratio: 16 / 9; border: 0; }
 #inspect-media figcaption {
   position: absolute;
@@ -730,6 +726,41 @@ kbd {
   .tour-text h3 { font-size: 23px; }
   .tour-text p:last-child { font-size: 16px; }
   #hud.is-touring #prompt { display: none; }
+}
+
+/* phones on their side: the panels would leave almost no room for content */
+@media (orientation: landscape) and (max-height: 520px) {
+  .is-touch #prompt { bottom: calc(14px + env(safe-area-inset-bottom)); max-width: calc(100vw - 340px); }
+
+  .screen { padding: 8px; }
+
+  /* the whole catalogue scrolls as one, with the close button kept in view */
+  .panel--catalogue { display: block; max-height: calc(100dvh - 16px); overflow-y: auto; }
+  .panel--catalogue > .close {
+    position: sticky;
+    top: 4px;
+    z-index: 3;
+    display: block;
+    margin: 4px 4px -44px auto;
+    background: rgba(245, 241, 233, 0.92);
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.25);
+  }
+  .panel-head { padding: 12px 56px 8px 18px; }
+  .panel-title h2 { margin-top: 2px; font-size: 26px; }
+  .panel-lead { display: none; }
+  .panel-toolbar { padding: 8px 14px; }
+  #catalogue-list { overflow: visible; padding: 12px 14px 16px; }
+
+  /* picture beside the text, so a portrait picture is seen whole */
+  .panel--inspect:not(.no-media) { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); width: min(100%, 1180px); height: calc(100dvh - 16px); max-height: none; overflow: hidden; }
+  .panel--inspect.no-media { height: auto; max-height: calc(100dvh - 16px); overflow-y: auto; }
+  #inspect-media { flex: 1 1 auto; aspect-ratio: auto; }
+  #inspect-thumbs { padding: 6px 8px; }
+  .thumb { width: 72px; }
+  #inspect-body { overflow-y: auto; padding: 20px 20px 22px; }
+  #inspect-body h2 { font-size: 28px; }
+  .inspect-lead { font-size: 19px; }
+  .inspect-pager { margin-top: 20px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

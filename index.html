@@ -102,13 +102,13 @@
   <!-- Catalogue (also the pause menu) -->
   <section id="catalogue" class="screen screen--catalogue" hidden data-i18n-label="cat.title" aria-label="Catalogue">
     <div class="panel panel--catalogue">
+      <button id="catalogue-close" class="close" data-i18n-label="cat.close" aria-label="Close">×</button>
       <header class="panel-head">
         <div class="panel-title">
           <p class="eyebrow" data-i18n="permanent">Permanent Collection</p>
           <h2 data-i18n="cat.title">Catalogue</h2>
           <p class="panel-lead" data-i18n="cat.lead">Every hall and every piece. Pick one to read about it, or choose a hall to walk straight there.</p>
         </div>
-        <button id="catalogue-close" class="close" data-i18n-label="cat.close" aria-label="Close">×</button>
       </header>
       <!-- Toolbar -->
       <div class="panel-toolbar">
@@ -130,7 +130,6 @@
       </div>
       <div id="catalogue-list"></div>
       <footer class="panel-foot">
-        <p id="cat-credit" hidden></p>
         <p class="desktop-only" data-i18n-html="cat.foot"><kbd>Esc</kbd> or a click outside closes the catalogue</p>
       </footer>
     </div>

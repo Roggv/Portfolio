@@ -117,7 +117,6 @@ export class Soundtrack {
     this.audio = null;
     this.fade = 0; // fade-in progress, 0 to 1
     this.fadeTimer = 0;
-    this.onTrack = null; // called with the track that starts playing
     mixer.onChange(() => this.sync());
     document.addEventListener('visibilitychange', () => this.sync());
   }
@@ -145,7 +144,6 @@ export class Soundtrack {
     const track = this.tracks[this.index];
     this.audio.loop = this.tracks.length === 1;
     this.audio.src = track.src;
-    this.onTrack?.(track);
     this.sync();
   }
 

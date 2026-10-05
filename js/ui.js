@@ -49,7 +49,6 @@ export function applyLanguage() {
   setSound(soundOn);
   setTourPaused(tourPaused);
   setFullscreen(fullscreenOn);
-  setMusic(credits.map((c) => c.track));
   lastRoom = null; // forces the room name and prompt to be rewritten
   lastTarget = undefined;
   for (const b of document.querySelectorAll('.lang-btn')) b.setAttribute('aria-pressed', String(b.dataset.lang === getLanguage()));
@@ -238,28 +237,6 @@ export function setVolume(v) {
   slider.value = percent;
   slider.style.setProperty('--fill', `${percent}%`);
   $('cat-volume-value').textContent = `${percent}%`;
-}
-
-// Music credit at the foot of the catalogue, with a ♪ on the track that is playing
-let credits = [];
-
-export function setMusic(tracks) {
-  const el = $('cat-credit');
-  el.hidden = !tracks.length;
-  credits = tracks.map((t) => {
-    const name = t.url ? h('a', { href: t.url, target: '_blank', rel: 'noopener' }, `“${t.title ?? t.src}”`) : h('span', {}, `“${t.title ?? t.src}”`);
-    const by = [t.artist, t.license].filter(Boolean).join(' · ');
-    return { track: t, el: h('span', { class: 'credit' }, h('span', { class: 'credit-note', 'aria-hidden': 'true' }, '♪'), name, by ? `, ${by}` : '') };
-  });
-  fill(el, say('cat.music'), credits.flatMap((c, i) => (i ? [' · ', c.el] : [c.el])));
-  if (playing) setNowPlaying(playing);
-}
-
-let playing = null; // the track that is playing now
-
-export function setNowPlaying(track) {
-  playing = track;
-  for (const c of credits) c.el.classList.toggle('playing', c.track === track);
 }
 
 // tour bar
