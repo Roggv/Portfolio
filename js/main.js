@@ -262,6 +262,7 @@ ui.bind({
   tourMore: openTourStop,
   tourStop: play,
   sound: toggleSound,
+  fullscreen: toggleFullscreen,
   volume: (v) => mixer.setVolume(v),
 });
 ui.buildMap(museum);
@@ -291,6 +292,24 @@ ui.ready();
 
 function toggleSound() {
   mixer.toggle();
+}
+
+// iPhone Safari can't fullscreen a page, so the button (touch only) is only shown where it works
+const fullscreenActive = () => !!(document.fullscreenElement ?? document.webkitFullscreenElement);
+if (document.fullscreenEnabled || document.webkitFullscreenEnabled) document.documentElement.classList.add('can-fullscreen');
+
+function toggleFullscreen() {
+  const root = document.documentElement;
+  try {
+    const result = fullscreenActive()
+      ? (document.exitFullscreen ?? document.webkitExitFullscreen).call(document)
+      : (root.requestFullscreen ?? root.webkitRequestFullscreen).call(root);
+    result?.catch?.(() => {});
+  } catch { /* refused by the browser */ }
+}
+
+for (const type of ['fullscreenchange', 'webkitfullscreenchange']) {
+  document.addEventListener(type, () => ui.setFullscreen(fullscreenActive()));
 }
 
 let lockLostTimer = 0;

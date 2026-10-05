@@ -26,6 +26,7 @@ let me = null; // the profile
 let enterState = 'loading'; // loading | ready | failed: what the big button says
 let soundOn = true;
 let tourPaused = false;
+let fullscreenOn = false;
 
 export function init(profile, isTouch) {
   touch = isTouch;
@@ -47,6 +48,7 @@ export function applyLanguage() {
   $('enter-btn').textContent = say({ loading: 'intro.loading', ready: 'intro.enter', failed: 'intro.error' }[enterState]);
   setSound(soundOn);
   setTourPaused(tourPaused);
+  setFullscreen(fullscreenOn);
   setMusic(credits.map((c) => c.track));
   lastRoom = null; // forces the room name and prompt to be rewritten
   lastTarget = undefined;
@@ -73,6 +75,7 @@ export function bind(on) {
   $('catalogue-close').onclick = on.resume;
   $('catalogue').addEventListener('click', (e) => { if (e.target.id === 'catalogue') on.resume(); }); // a click outside the panel
   $('menu-btn').onclick = on.browse;
+  $('fullscreen-btn').onclick = on.fullscreen;
   $('inspect-close').onclick = on.closeInspect;
   $('inspect').addEventListener('click', (e) => { if (e.target.id === 'inspect') on.closeInspect(); });
   $('tour-prev').onclick = on.tourPrev;
@@ -137,6 +140,13 @@ export function setPrompt(ex) {
     h('span', { class: 'prompt-title' }, ex.title),
     ex.no ? h('span', { class: 'prompt-no' }, shortNo(ex)) : null,
   );
+}
+
+export function setFullscreen(on) {
+  fullscreenOn = on;
+  const btn = $('fullscreen-btn');
+  btn.classList.toggle('is-on', on);
+  btn.setAttribute('aria-label', say(on ? 'hud.exitFullscreen' : 'hud.fullscreen'));
 }
 
 export function setResumeHint(on) {
