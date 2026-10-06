@@ -144,7 +144,8 @@ kbd {
 }
 #hud-room-title { font-family: var(--serif); font-size: 28px; }
 
-/* floor plan under the room name */
+/* floor plan under the room name (not on phones, it takes too much of the screen) */
+.is-touch #minimap { display: none; }
 #minimap {
   position: absolute;
   top: 88px;

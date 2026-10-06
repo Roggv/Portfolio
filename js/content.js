@@ -82,6 +82,8 @@ export const music = {
 
 const PLAY_ON_ITCH = L('Play on itch.io', 'Juga a itch.io', 'Juega en itch.io');
 const TITLE_SCREEN = L('Title screen', 'Pantalla de títol', 'Pantalla de título');
+const GAMEPLAY = L('Gameplay video', 'Vídeo de la partida', 'Vídeo de la partida');
+const ANIMATION = L('The animation', "L'animació", 'La animación');
 
 export const rooms = [
   // Unreal
@@ -246,11 +248,14 @@ export const rooms = [
         ),
         description: L(
           'A 3D tank combat game set on open terrain. To survive a round you destroy every enemy tank, and each new round brings more of them.\n\n' +
-            'The project is a study in motion physics. The tank, its turret and every projectile follow uniformly accelerated motion, so things speed up and settle smoothly instead of snapping to a fixed velocity. A dashed line previews the arc of your shell before you fire, and the enemy turrets solve the same projectile equations to aim at you.',
+            'The project is a study in motion physics. The tank, its turret and every projectile follow uniformly accelerated motion, so things speed up and settle smoothly instead of snapping to a fixed velocity. A dashed line previews the arc of your shell before you fire, and the enemy turrets solve the same projectile equations to aim at you.\n\n' +
+            'The video is a 45-second play-through, from the title screen to the "You reached round 1" screen.',
           "Un joc de combat de tancs en 3D en un terreny obert. Per sobreviure a una ronda has de destruir tots els tancs enemics, i cada ronda nova en porta més.\n\n" +
-            "El projecte és un estudi de la física del moviment. El tanc, la seva torreta i cada projectil segueixen un moviment uniformement accelerat, de manera que les coses agafen velocitat i s'aturen suaument en lloc de saltar a una velocitat fixa. Una línia discontínua mostra per endavant l'arc del projectil abans de disparar, i les torretes enemigues resolen les mateixes equacions de projectils per apuntar-te.",
+            "El projecte és un estudi de la física del moviment. El tanc, la seva torreta i cada projectil segueixen un moviment uniformement accelerat, de manera que les coses agafen velocitat i s'aturen suaument en lloc de saltar a una velocitat fixa. Una línia discontínua mostra per endavant l'arc del projectil abans de disparar, i les torretes enemigues resolen les mateixes equacions de projectils per apuntar-te.\n\n" +
+            'El vídeo és una partida de 45 segons, de la pantalla de títol fins a la pantalla «You reached round 1».',
           'Un juego de combate de tanques en 3D en un terreno abierto. Para sobrevivir a una ronda tienes que destruir todos los tanques enemigos, y cada ronda nueva trae más.\n\n' +
-            'El proyecto es un estudio de la física del movimiento. El tanque, su torreta y cada proyectil siguen un movimiento uniformemente acelerado, de modo que las cosas cogen velocidad y se detienen con suavidad en lugar de saltar a una velocidad fija. Una línea discontinua muestra de antemano el arco del proyectil antes de disparar, y las torretas enemigas resuelven las mismas ecuaciones de proyectiles para apuntarte.',
+            'El proyecto es un estudio de la física del movimiento. El tanque, su torreta y cada proyectil siguen un movimiento uniformemente acelerado, de modo que las cosas cogen velocidad y se detienen con suavidad en lugar de saltar a una velocidad fija. Una línea discontinua muestra de antemano el arco del proyectil antes de disparar, y las torretas enemigas resuelven las mismas ecuaciones de proyectiles para apuntarte.\n\n' +
+            'El vídeo es una partida de 45 segundos, desde la pantalla de título hasta la pantalla «You reached round 1».',
         ),
         role: L(
           'The work was split equally between Lluís and me, with GitHub keeping our changes in sync.',
@@ -292,6 +297,9 @@ export const rooms = [
         ],
         tags: ['C#'],
         emblem: 'tank',
+        video: 'assets/projects/tank-wars/gameplay.mp4',
+        videoAspect: 16 / 9,
+        videoCaption: GAMEPLAY,
         images: [
           { src: 'assets/projects/tank-wars/battlefield.png', aspect: 1.7809, caption: L('A shell lands in the distance', 'Un projectil cau a lluny', 'Un proyectil cae a lo lejos') },
           { src: 'assets/projects/tank-wars/aiming.png', aspect: 1.7814, caption: L("The dashed line previews the shell's path", 'La línia discontínua mostra el camí del projectil', 'La línea discontinua muestra el camino del proyectil') },
@@ -309,13 +317,16 @@ export const rooms = [
         description: L(
           'A 3D runner set in a post-apocalyptic world overrun by zombies. You have to run 1000 metres along a bridge to a safehouse, steering around the zombies or jumping over them. It is inspired by Temple Run, except there are no coins to collect: all you have to do is survive.\n\n' +
             'The bridge is never rebuilt. It is a single piece of road that hops forward every time you touch a trigger, and each hop spawns a fresh horde of one or two zombies ahead of you. Zombies start walking toward you once you come within 15 units, and a close one has a one-in-three chance of letting out a shout. A first-person camera, with fog to hide the end of the bridge, can be toggled with C.\n\n' +
-            'Reach the safehouse and you get the good ending; get bitten and you get the bad one.',
+            'Reach the safehouse and you get the good ending; get bitten and you get the bad one.\n\n' +
+            'The video is a 35-second run, from the title screen along the bridge to the Victory screen.',
           "Un joc de córrer en 3D ambientat en un món postapocalíptic envaït de zombis. Has de córrer 1000 metres per un pont fins a un refugi, esquivant els zombis o saltant-los per sobre. S'inspira en Temple Run, però sense monedes per recollir: només has de sobreviure.\n\n" +
             "El pont mai es reconstrueix. És un únic tros de carretera que salta endavant cada cop que toques un activador, i cada salt genera una nova munió d'un o dos zombis davant teu. Els zombis comencen a caminar cap a tu quan t'hi acostes a menys de 15 unitats, i un de proper té una probabilitat d'un entre tres de deixar anar un crit. Es pot activar una càmera en primera persona, amb boira per amagar el final del pont, amb la tecla C.\n\n" +
-            "Arriba al refugi i tindràs el bon final; deixa't mossegar i tindràs el dolent.",
+            "Arriba al refugi i tindràs el bon final; deixa't mossegar i tindràs el dolent.\n\n" +
+            'El vídeo és una cursa de 35 segons, de la pantalla de títol pel pont fins a la pantalla «Victory!».',
           'Un juego de correr en 3D ambientado en un mundo postapocalíptico invadido por zombis. Tienes que correr 1000 metros por un puente hasta un refugio, esquivando a los zombis o saltándolos. Se inspira en Temple Run, pero sin monedas que recoger: lo único que tienes que hacer es sobrevivir.\n\n' +
             'El puente nunca se reconstruye. Es un único trozo de carretera que salta hacia delante cada vez que tocas un activador, y cada salto genera una nueva horda de uno o dos zombis delante de ti. Los zombis empiezan a caminar hacia ti cuando te acercas a menos de 15 unidades, y uno cercano tiene una probabilidad de una entre tres de soltar un grito. Se puede activar una cámara en primera persona, con niebla para ocultar el final del puente, con la tecla C.\n\n' +
-            'Llega al refugio y tendrás el buen final; déjate morder y tendrás el malo.',
+            'Llega al refugio y tendrás el buen final; déjate morder y tendrás el malo.\n\n' +
+            'El vídeo es una carrera de 35 segundos, desde la pantalla de título por el puente hasta la pantalla «Victory!».',
         ),
         role: L('A solo project: design, code and screens.', 'Un projecte en solitari: disseny, codi i pantalles.', 'Un proyecto en solitario: diseño, código y pantallas.'),
         context: L(
@@ -347,6 +358,9 @@ export const rooms = [
         ],
         tags: ['C#'],
         emblem: 'runner',
+        video: 'assets/projects/z-run/gameplay.mp4',
+        videoAspect: 16 / 9,
+        videoCaption: GAMEPLAY,
         images: [
           {
             src: 'assets/projects/z-run/first-person.png',
@@ -567,11 +581,11 @@ export const rooms = [
   // Blender
   {
     title: 'Blender',
-    subtitle: L('Low-poly worlds and characters', 'Mons i personatges low-poly', 'Mundos y personajes low-poly'),
+    subtitle: L('Worlds, characters and animation', 'Mons, personatges i animació', 'Mundos, personajes y animación'),
     description: L(
-      'The art side of the work: a looping animated tour of a dinosaur park, and a turntable of a low-poly swordsman.',
-      "La part artística de la feina: un recorregut animat en bucle per un parc de dinosaures i un giratori d'un espadatxí low-poly.",
-      'La parte artística del trabajo: un recorrido animado en bucle por un parque de dinosaurios y un giratorio de un espadachín low-poly.',
+      'The art side of the work: a looping tour of a dinosaur park, a low-poly swordsman, robot arms in a car factory and a character running to the finish line.',
+      'La part artística de la feina: un recorregut en bucle per un parc de dinosaures, un espadatxí low-poly, braços robòtics en una fàbrica de cotxes i un personatge que corre cap a la meta.',
+      'La parte artística del trabajo: un recorrido en bucle por un parque de dinosaurios, un espadachín low-poly, brazos robóticos en una fábrica de coches y un personaje que corre hacia la meta.',
     ),
     wall: '#6b3520',
     frame: 'white',
@@ -651,6 +665,92 @@ export const rooms = [
         images: [
           { src: 'assets/projects/zoro/full-body.jpg', aspect: 1.7766, caption: L('Full body', 'Cos sencer', 'Cuerpo entero') },
           { src: 'assets/projects/zoro/face.jpg', aspect: 1.7766, caption: L('Face close-up', 'Primer pla de la cara', 'Primer plano de la cara') },
+        ],
+      },
+      {
+        title: 'The Claw Animation',
+        medium: L('Blender · Animation', 'Blender · Animació', 'Blender · Animación'),
+        tagline: L(
+          'A robot claw lifts a van off the factory conveyor belt and drops it in the car graveyard.',
+          'Una urpa robòtica aixeca una furgoneta de la cinta transportadora de la fàbrica i la deixa al cementiri de cotxes.',
+          'Una garra robótica levanta una furgoneta de la cinta transportadora de la fábrica y la deja en el cementerio de coches.',
+        ),
+        description: L(
+          'A Blender animation set in a car factory. A yellow van rolls down a blue conveyor belt past a row of robot arms, until one of them grips it with its claw, lifts it off the belt and drops it onto a pile of vans in the car graveyard.\n\n' +
+            'The video runs for 26 seconds. The pictures show the factory, with its conveyor belt and robot arms, and the car graveyard seen from above.',
+          "Una animació feta amb Blender ambientada en una fàbrica de cotxes. Una furgoneta groga avança per una cinta transportadora blava entre una filera de braços robòtics, fins que un d'ells l'agafa amb la seva urpa, l'aixeca de la cinta i la deixa caure sobre un munt de furgonetes al cementiri de cotxes.\n\n" +
+            'El vídeo dura 26 segons. Les imatges mostren la fàbrica, amb la cinta transportadora i els braços robòtics, i el cementiri de cotxes vist des de dalt.',
+          'Una animación hecha con Blender ambientada en una fábrica de coches. Una furgoneta amarilla avanza por una cinta transportadora azul junto a una fila de brazos robóticos, hasta que uno de ellos la agarra con su garra, la levanta de la cinta y la deja caer sobre un montón de furgonetas en el cementerio de coches.\n\n' +
+            'El vídeo dura 26 segundos. Las imágenes muestran la fábrica, con la cinta transportadora y los brazos robóticos, y el cementerio de coches visto desde arriba.',
+        ),
+        highlights: [
+          L(
+            'A factory with a conveyor belt and several robot arms',
+            'Una fàbrica amb una cinta transportadora i diversos braços robòtics',
+            'Una fábrica con una cinta transportadora y varios brazos robóticos',
+          ),
+          L(
+            'A claw that lifts a van off the belt and carries it to the car graveyard',
+            'Una urpa que aixeca una furgoneta de la cinta i la porta al cementiri de cotxes',
+            'Una garra que levanta una furgoneta de la cinta y la lleva al cementerio de coches',
+          ),
+        ],
+        emblem: 'claw',
+        video: 'assets/projects/the-claw-animation/animation.mp4',
+        videoAspect: 16 / 9,
+        videoCaption: ANIMATION,
+        images: [
+          { src: 'assets/projects/the-claw-animation/factory.jpg', aspect: 1.7766, caption: L('The factory', 'La fàbrica', 'La fábrica') },
+          {
+            src: 'assets/projects/the-claw-animation/car-graveyard.jpg',
+            aspect: 1.7766,
+            caption: L('The car graveyard, seen from above', 'El cementiri de cotxes, vist des de dalt', 'El cementerio de coches, visto desde arriba'),
+          },
+        ],
+      },
+      {
+        title: 'Vincent Animation',
+        medium: L('Blender · Character animation', 'Blender · Animació de personatges', 'Blender · Animación de personajes'),
+        tagline: L(
+          'Vincent runs down the track and celebrates at the finish line.',
+          "En Vincent corre per la pista i celebra l'arribada a la meta.",
+          'Vincent corre por la pista y celebra la llegada a la meta.',
+        ),
+        description: L(
+          'A short Blender animation of Vincent, a cartoon character, running down an athletics track. The first seconds play over a run-cycle pose chart. Then he runs past a cheering crowd and crosses the finish line under a banner that reads GUANYADOR ("winner" in Catalan), raising both arms in victory.\n\n' +
+            'The video lasts 8 seconds and the picture shows the finish line.\n\n' +
+            'Character: Vincent, by Blender Studio (CC BY 4.0).',
+          "Una breu animació feta amb Blender d'en Vincent, un personatge de dibuixos animats, corrent per una pista d'atletisme. Els primers segons passen sobre un gràfic de poses del cicle de cursa. Després corre davant d'un públic que l'anima i creua la línia de meta sota una pancarta que diu GUANYADOR, aixecant els dos braços en senyal de victòria.\n\n" +
+            'El vídeo dura 8 segons i la imatge mostra la línia de meta.\n\n' +
+            'Personatge: Vincent, de Blender Studio (CC BY 4.0).',
+          'Una breve animación hecha con Blender de Vincent, un personaje de dibujos animados, corriendo por una pista de atletismo. Los primeros segundos transcurren sobre un gráfico de poses del ciclo de carrera. Después corre ante un público que lo anima y cruza la línea de meta bajo una pancarta que dice GUANYADOR («ganador» en catalán), levantando los dos brazos en señal de victoria.\n\n' +
+            'El vídeo dura 8 segundos y la imagen muestra la línea de meta.\n\n' +
+            'Personaje: Vincent, de Blender Studio (CC BY 4.0).',
+        ),
+        highlights: [
+          L(
+            'A run cycle shown next to its pose chart',
+            'Un cicle de cursa mostrat al costat del seu gràfic de poses',
+            'Un ciclo de carrera mostrado junto a su gráfico de poses',
+          ),
+          L(
+            'A running track with a cheering crowd and a finish banner',
+            "Una pista d'atletisme amb públic i una pancarta de meta",
+            'Una pista de atletismo con público y una pancarta de meta',
+          ),
+          L('A victory pose at the finish line', 'Una pose de victòria a la meta', 'Una pose de victoria en la meta'),
+        ],
+        links: [{ label: L('Vincent by Blender Studio', 'Vincent, de Blender Studio', 'Vincent, de Blender Studio'), url: 'https://studio.blender.org/characters/vincent/v2' }],
+        emblem: 'vincent',
+        video: 'assets/projects/vincent-animation/animation.mp4',
+        videoAspect: 16 / 9,
+        videoCaption: ANIMATION,
+        images: [
+          {
+            src: 'assets/projects/vincent-animation/finish-line.jpg',
+            aspect: 1.7766,
+            caption: L('Vincent celebrating at the finish line', 'En Vincent celebrant a la línia de meta', 'Vincent celebrando en la línea de meta'),
+          },
         ],
       },
     ],

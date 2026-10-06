@@ -622,6 +622,147 @@ function zoro() {
   };
 }
 
+// The Claw Animation: a robot arm with a claw sweeping over a conveyor belt, a yellow van riding it
+function claw() {
+  const g = new THREE.Group();
+  const dark = std('#2c2e33', { roughness: 0.5, metalness: 0.4 });
+  const steel = std('#555a63', { roughness: 0.45, metalness: 0.5 });
+  const belt = std('#2f5db3', { roughness: 0.8 });
+  const paint = std('#cdbb3a', { roughness: 0.5 });
+  const glass = std('#1d2630', { roughness: 0.3 });
+  const tyre = std('#1c1c1c', { roughness: 0.8 });
+
+  add(g, box(0.66, 0.03, 0.5), std('#2b2724', { roughness: 0.8 }), 0, 0.015, 0);
+  add(g, box(0.64, 0.04, 0.15), belt, 0, 0.05, 0.14);
+  for (const sz of [-1, 1]) add(g, box(0.64, 0.025, 0.014), steel, 0, 0.0725, 0.14 + sz * 0.082);
+
+  const van = new THREE.Group();
+  van.position.set(0, 0.07, 0.14);
+  g.add(van);
+  add(van, box(0.15, 0.03, 0.085), paint, 0, 0.03, 0);
+  add(van, box(0.09, 0.05, 0.085), paint, -0.03, 0.07, 0); // cargo box
+  add(van, box(0.06, 0.035, 0.085), paint, 0.045, 0.0625, 0); // cab
+  add(van, box(0.004, 0.024, 0.07), glass, 0.076, 0.064, 0);
+  for (const [x, z] of [[-0.05, -0.045], [0.05, -0.045], [-0.05, 0.045], [0.05, 0.045]]) {
+    add(van, cyl(0.015, 0.015, 0.012, 10), tyre, x, 0.015, z).rotation.x = Math.PI / 2;
+  }
+
+  // the arm: turret, shoulder, elbow, wrist and a three-prong claw, all bending about x
+  add(g, cyl(0.075, 0.085, 0.04, 16), dark, 0, 0.05, -0.14);
+  const turret = new THREE.Group();
+  turret.position.set(0, 0.07, -0.14);
+  g.add(turret);
+  add(turret, box(0.07, 0.06, 0.07), dark, 0, 0.03, 0);
+  const shoulder = new THREE.Group();
+  shoulder.position.y = 0.065;
+  turret.add(shoulder);
+  add(shoulder, ball(0.03, 10, 8), steel);
+  add(shoulder, box(0.04, 0.22, 0.04), dark, 0, 0.11, 0);
+  const elbow = new THREE.Group();
+  elbow.position.y = 0.22;
+  shoulder.add(elbow);
+  add(elbow, ball(0.026, 10, 8), steel);
+  add(elbow, box(0.034, 0.2, 0.034), dark, 0, 0.1, 0);
+  const wrist = new THREE.Group();
+  wrist.position.y = 0.2;
+  elbow.add(wrist);
+  add(wrist, box(0.05, 0.022, 0.05), steel);
+  for (let i = 0; i < 3; i++) {
+    const pivot = new THREE.Group();
+    pivot.rotation.y = (i * TAU) / 3;
+    wrist.add(pivot);
+    const prong = add(pivot, box(0.01, 0.06, 0.01), steel, 0.018, 0.04, 0);
+    prong.rotation.z = 0.25;
+  }
+
+  const ELBOW = 1.4;
+  return {
+    object: g,
+    update(t) {
+      turret.rotation.y = Math.sin(t * 0.5) * 0.55;
+      const lean = 0.6 + Math.sin(t * 1.0) * 0.12;
+      shoulder.rotation.x = lean;
+      elbow.rotation.x = ELBOW;
+      wrist.rotation.x = Math.PI - lean - ELBOW; // keeps the claw pointing straight down
+
+      const x = ((t * 0.06) % 0.54) - 0.27; // the van rides the belt and shrinks away at either end
+      van.position.x = x;
+      van.scale.setScalar(THREE.MathUtils.clamp(Math.min(x + 0.27, 0.27 - x) / 0.12, 0.001, 1));
+    },
+  };
+}
+
+// banner for Vincent: dark lettering on a pale board, as in the finish line shot
+function bannerTexture() {
+  const [c, x] = canvas2d(640, 128);
+  x.fillStyle = '#d3dde8';
+  x.fillRect(0, 0, 640, 128);
+  x.fillStyle = '#44556b';
+  x.font = `800 74px ${FONT.sans}`;
+  x.textAlign = 'center';
+  x.textBaseline = 'middle';
+  x.fillText('GUANYADOR', 320, 68);
+  return canvasTexture(c);
+}
+
+// Vincent Animation: Vincent with both arms up on a running track, under the finish banner
+function vincent() {
+  const g = new THREE.Group();
+  const skin = std('#f0c4a0');
+  const shirt = std('#e5b92e');
+  const jeans = std('#2d4f86');
+  const shoe = std('#9fc0d4');
+  const hair = std('#b0572b');
+  const dark = std('#1b1b20');
+  const lane = std('#f2efe6', { roughness: 0.8 });
+
+  add(g, box(0.62, 0.03, 0.62), std('#2b2724', { roughness: 0.8 }), 0, 0.015, 0);
+  add(g, box(0.58, 0.012, 0.58), std('#c9602f', { roughness: 0.85 }), 0, 0.036, 0);
+  for (const x of [-0.14, 0, 0.14]) add(g, box(0.012, 0.002, 0.58), lane, x, 0.043, 0);
+
+  // finish banner behind him, readable from both sides
+  const sign = bright('#ffffff', { map: bannerTexture() });
+  for (const sx of [-1, 1]) add(g, cyl(0.011, 0.011, 0.84, 8), dark, sx * 0.29, 0.46, -0.24);
+  for (const side of [1, -1]) {
+    const face = add(g, new THREE.PlaneGeometry(0.556, 0.111), sign, 0, 0.82, -0.24 + side * 0.008);
+    face.rotation.y = side === 1 ? 0 : Math.PI;
+  }
+  add(g, box(0.556, 0.111, 0.012), std('#9aa8b8'), 0, 0.82, -0.24);
+
+  const fig = new THREE.Group();
+  fig.position.y = 0.04;
+  g.add(fig);
+  for (const sx of [-1, 1]) {
+    add(fig, box(0.07, 0.3, 0.08), jeans, sx * 0.05, 0.19, 0); // legs
+    add(fig, box(0.085, 0.04, 0.13), shoe, sx * 0.05, 0.02, 0.015); // shoes
+    add(fig, ball(0.01, 6, 4), dark, sx * 0.032, 0.69, 0.071); // eyes
+    const lens = add(fig, new THREE.TorusGeometry(0.022, 0.004, 6, 14), dark, sx * 0.032, 0.69, 0.072);
+    lens.scale.set(1, 0.85, 1);
+  }
+  add(fig, box(0.19, 0.26, 0.1), shirt, 0, 0.47, 0); // shirt
+  add(fig, box(0.02, 0.004, 0.004), dark, 0, 0.69, 0.073); // glasses bridge
+  add(fig, ball(0.075, 14, 10), skin, 0, 0.685, 0); // head
+  add(fig, ball(0.012, 6, 4), skin, 0, 0.672, 0.078); // nose
+  add(fig, ball(0.08, 14, 8), hair, 0, 0.72, -0.012).scale.y = 0.72;
+
+  const arms = [-1, 1].map((sx) => {
+    const pivot = new THREE.Group();
+    pivot.position.set(sx * 0.115, 0.58, 0);
+    fig.add(pivot);
+    add(pivot, box(0.045, 0.22, 0.045), shirt, 0, 0.11, 0);
+    add(pivot, ball(0.032, 8, 6), skin, 0, 0.235, 0); // fist
+    return { pivot, sx };
+  });
+
+  return {
+    object: g,
+    update(t) {
+      fig.rotation.y = Math.sin(t * 0.5) * 0.5;
+      for (const { pivot, sx } of arms) pivot.rotation.z = -sx * (0.35 + Math.sin(t * 3 + (sx > 0 ? 0 : 1.2)) * 0.15);
+    },
+  };
+}
+
 // Web
 
 function coverTexture(i) {
@@ -920,7 +1061,7 @@ function model(src, fallback) {
 export { solarSystem };
 
 export const EMBLEMS = {
-  tank, dice, runner, mansion, arrows, shader, diorama, zoro, cases, browser, sprite,
+  tank, dice, runner, mansion, arrows, shader, diorama, zoro, claw, vincent, cases, browser, sprite,
 };
 
 // `spec` is the project's emblem fields: { emblem } | { emblem: 'sprite', sprite } | { model, emblem? }
